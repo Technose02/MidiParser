@@ -19,7 +19,7 @@ public class VariableLengthQuantity {
 		}
 		
 		try {
-			reverseByteArray(m_encodedValue);
+			MidiFileUtils.reverseByteArray(m_encodedValue);
 			
 			BitSet bsDec = new BitSet(Math.max(8, m_encodedValue.length * 7));
 			BitSet bsIn = BitSet.valueOf(m_encodedValue);
@@ -36,9 +36,9 @@ public class VariableLengthQuantity {
 				kIn++;
 			}
 			m_decodedValue = bsDec.toByteArray();			
-			reverseByteArray(m_decodedValue);
+			MidiFileUtils.reverseByteArray(m_decodedValue);
 		} finally {
-			reverseByteArray(m_encodedValue);
+			MidiFileUtils.reverseByteArray(m_encodedValue);
 		}
 	}
 	
@@ -59,15 +59,6 @@ public class VariableLengthQuantity {
 		return m_decodedValue.length;
 	}
 	
-	private static void reverseByteArray(byte[] ba) {
-		int L = ba.length;
-		for (int i = 0; i < L / 2; i++) {
-			byte b = ba[ L - i - 1];
-			ba[ L - i - 1] = ba[i];
-			ba[i] = b;
-		}
-	}
-	
 	public String getHexString(boolean encoded) {
 		String hex = null;
 		if (encoded) {
@@ -81,7 +72,6 @@ public class VariableLengthQuantity {
 			ret += hex.substring(i, i + 2) + " ";
 			i += 2;
 		}
-//		return hex;
 		return ret.trim();
 	}
 
@@ -94,7 +84,7 @@ public class VariableLengthQuantity {
 		}
 		
 		try {
-			reverseByteArray(src);
+			MidiFileUtils.reverseByteArray(src);
 			int L = src.length;
 			BitSet b_ = BitSet.valueOf(src);
 			for (int i = 0; i < L; i++)
@@ -109,7 +99,7 @@ public class VariableLengthQuantity {
 				}
 			}
 		} finally {
-			reverseByteArray(src);
+			MidiFileUtils.reverseByteArray(src);
 		}
 		
 		return sb.reverse().toString().trim();
@@ -146,12 +136,9 @@ public class VariableLengthQuantity {
 	
 	public static VariableLengthQuantity fromByteArray(byte[] value, boolean encoded) {
 		VariableLengthQuantity ret = new VariableLengthQuantity();
-//		pw.println("Size of value: " + value.length);
 		ret.updateValue(value, encoded);
 		return ret;
 	}
-	
-///////////////////////////////////////////
 	
 	private void encode() {
 		try {
@@ -167,7 +154,7 @@ public class VariableLengthQuantity {
 			}
 
 			// Encoding
-			reverseByteArray(m_decodedValue);
+			MidiFileUtils.reverseByteArray(m_decodedValue);
 			
 			BitSet bsEnc = new BitSet(nbits);
 			BitSet bsIn = BitSet.valueOf(m_decodedValue);
@@ -190,9 +177,9 @@ public class VariableLengthQuantity {
 				}
 			}
 			m_encodedValue = bsEnc.toByteArray();			
-			reverseByteArray(m_encodedValue);
+			MidiFileUtils.reverseByteArray(m_encodedValue);
 		} finally {
-			reverseByteArray(m_decodedValue);
+			MidiFileUtils.reverseByteArray(m_decodedValue);
 		}
 	}
 	
@@ -204,15 +191,7 @@ public class VariableLengthQuantity {
 			do {
 				cur = (byte)is.read();
 				bytes.add(cur);
-//				pw.println("byte gelesen: " + cur);
-			} while (!Event.isDataByte(cur));
-//  		} while ((cur & 0xff) >= 128);
-//			byte cur = (byte)is.read();
-//			while ( (cur & 0xff) >= 128 ) {
-//				bytes.add(cur);
-//				cur = (byte)is.read();
-//			}
-//			bytes.add(cur);
+			} while (!MidiFileUtils.isDataByte(cur));
 			
 			byte[] a = new byte[bytes.size()];
 			for (int i = 0; i < bytes.size(); i++) {

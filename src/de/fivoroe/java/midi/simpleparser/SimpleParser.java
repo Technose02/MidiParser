@@ -83,8 +83,10 @@ public class SimpleParser {
 	public static void main(String[] args) {
 		
 //		Test3(args);
-		GlobalWriter.setOutput("midi.txt");
+		MidiFileUtils.setLogWriter("midi.txt");
 		new MidiFile(args[0]);
+		MidiFileUtils.disposeLogWriter();
+		System.out.println("done!");
 	}
 
 }

@@ -17,7 +17,7 @@ public class MidiTrack {
 			is.read(buff, 0, 4);
 			String mtrk = new String(buff, 0, 4);
 			
-			if (!mtrk.equals(MidiFile.MTRK)) {
+			if (!mtrk.equals(MidiFileUtils.MTRK)) {
 				System.err.println("  Not a valid Midi file: MTRK of second track not found");
 				return;
 			}
@@ -25,14 +25,13 @@ public class MidiTrack {
 			// read length
 			is.read(buff, 0, 4);
 			int l = ByteBuffer.wrap(buff).getInt();
-			GlobalWriter.getWriter().println("  Length of Trackdata: " + l + "byte(s)");
+			MidiFileUtils.logWriter().println("  Length of Trackdata: " + l + "byte(s)");
 			
 			int r = 0;
 			while (r < l) {
 				Event e = Event.fromStream(is);
 				m_events.add(e);
 				r += e.getBytesRead();
-				System.out.println("r ist jetzt " + r);
 			}
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
