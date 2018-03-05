@@ -1,7 +1,8 @@
-package de.fivoroe.java.midi.simpleparser;
+package de.fivoroe.java.midi.midifile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public class MetaEvent extends Event {
 
@@ -42,6 +43,11 @@ public class MetaEvent extends Event {
 					MidiFileUtils.logWriter().println("  Data ist 0x" + MidiFileUtils.getHexString(buff, 0, d));
 				}
 		}
+	}
+
+	@Override
+	public void writeToStream(OutputStream os) {
+		// TODO Auto-generated method stub
 	}
 
 }

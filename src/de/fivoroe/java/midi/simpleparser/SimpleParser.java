@@ -4,6 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import de.fivoroe.java.midi.midifile.MidiFile;
+import de.fivoroe.java.midi.midifile.MidiFileUtils;
+import de.fivoroe.java.midi.midifile.VariableLengthQuantity;
+
 public class SimpleParser {
 
 	

@@ -1,8 +1,9 @@
-package de.fivoroe.java.midi.simpleparser;
+package de.fivoroe.java.midi.midifile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public class MidiEvent extends Event {
 	
@@ -87,6 +88,11 @@ public class MidiEvent extends Event {
 	@Override
 	public int getEventType() {		
 		return MidiFileUtils.MIDI_EVENT;
+	}
+
+	@Override
+	public void writeToStream(OutputStream os) {
+		// TODO Auto-generated method stub
 	}
 
 }

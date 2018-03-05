@@ -1,7 +1,8 @@
-package de.fivoroe.java.midi.simpleparser;
+package de.fivoroe.java.midi.midifile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public abstract class Event {
 
@@ -46,5 +47,6 @@ public abstract class Event {
     }
     
 	public abstract int getEventType();
+	public abstract void writeToStream(OutputStream os);
 	
 }

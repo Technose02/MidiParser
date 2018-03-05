@@ -1,4 +1,4 @@
-package de.fivoroe.java.midi.simpleparser;
+package de.fivoroe.java.midi.midifile;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -31,7 +31,7 @@ public class MidiFile {
 			m_tracks = new ArrayList<MidiTrack>(cnt);
 			for (int i = 0; i < cnt; i++) {
 				MidiFileUtils.logWriter().println("parsing track " + (i + 1) + " of " + cnt);
-				MidiTrack tmp = new MidiTrack(is);
+				MidiTrack tmp = MidiTrack.createFromStream(is);
 				m_tracks.add(tmp);
 			}
 			

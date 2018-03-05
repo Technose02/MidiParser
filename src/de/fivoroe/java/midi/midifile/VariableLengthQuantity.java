@@ -1,4 +1,4 @@
-package de.fivoroe.java.midi.simpleparser;
+package de.fivoroe.java.midi.midifile;
 
 import java.io.IOException;
 import java.io.InputStream;
