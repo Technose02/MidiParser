@@ -2,20 +2,18 @@ package de.fivoroe.java.midi.midifile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
-public abstract class Event {
+public abstract class Event extends MidiFilePart {
 
 	protected static Event s_lastEvent = null;
 	
-	protected int  m_bytesRead;
 	protected long m_deltaTime;
 	
 	protected Event() {
-		m_bytesRead = 0;
+		super();
 	}
 	
-	final public static Event fromStream(InputStream is) throws IOException {
+	protected static Event createFromStream(InputStream is) throws IOException {
 		
 		VariableLengthQuantity dt = VariableLengthQuantity.fromStream(is, true);		
 		int bytesRead = dt.getByteCount(true);
@@ -35,18 +33,9 @@ public abstract class Event {
 		s_lastEvent.m_deltaTime = dt.getAsLong();
 		bytesRead += s_lastEvent.getBytesRead();
 		s_lastEvent.setBytesRead(bytesRead);
-		return s_lastEvent;		
+		return s_lastEvent;
 	}
 	
-    protected final int getBytesRead() {
-    	return m_bytesRead;
-    }
-    
-    protected final void setBytesRead(int bytesRead) {
-    	m_bytesRead = bytesRead;
-    }
-    
 	public abstract int getEventType();
-	public abstract void writeToStream(OutputStream os);
 	
 }

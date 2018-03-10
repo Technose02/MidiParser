@@ -2,6 +2,9 @@ package de.fivoroe.java.midi.simpleparser;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import de.fivoroe.java.midi.midifile.MidiFile;
@@ -88,7 +91,33 @@ public class SimpleParser {
 		
 //		Test3(args);
 		MidiFileUtils.setLogWriter("midi.txt");
-		new MidiFile(args[0]);
+		
+		MidiFile f = null;
+		
+		try (FileInputStream is = new FileInputStream(args[0])) {
+			f = MidiFile.createFromStream(is);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(f.getBytesRead() + " bytes eingelesen!");
+		
+		try (FileOutputStream os = new FileOutputStream("out.mid")) {
+			if (f != null) {
+				f.writeToStream(os);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		MidiFileUtils.disposeLogWriter();
 		System.out.println("done!");
 	}

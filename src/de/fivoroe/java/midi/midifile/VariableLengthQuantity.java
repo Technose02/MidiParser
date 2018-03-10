@@ -217,7 +217,7 @@ public class VariableLengthQuantity {
 		for (int i = 0; i < a.length - k; i ++) {
 			a_[i] = a[i + k];
 		}
-			
+
 		ret.updateValue(a_, false);
 		return ret;
 	}

@@ -6,11 +6,6 @@ import java.io.OutputStream;
 
 public class MetaEvent extends Event {
 
-	@Override
-	public int getEventType() {
-		return MidiFileUtils.META_EVENT;
-	}
-	
 	private MetaEvent() {
 		super();
 	}
@@ -18,19 +13,20 @@ public class MetaEvent extends Event {
 	protected static MetaEvent createFromStream(InputStream is) throws IOException {
 		MetaEvent e = new MetaEvent();
 		MidiFileUtils.logWriter().println("Event ist Meta-Event");
-		e.init(is);
+		e.readFromStream(is);
 		return e;
 	}
 	
-	private void init(InputStream is) throws IOException {
-		byte[] buff = new byte[1024];
+	@Override
+	protected void readFromStream(InputStream is) throws IOException {
+		byte[] buff = new byte[MidiFileUtils.READ_BUFFER_SIZE];
 		byte cmd = (byte)is.read();
-		m_bytesRead++;
+		setBytesRead(getBytesRead() + 1);
 		MidiFileUtils.logWriter().println("  Command ist 0x" + MidiFileUtils.getHexString(cmd));
 		switch (cmd) {
 			default:
 				VariableLengthQuantity tmp = VariableLengthQuantity.fromStream(is, true);
-				m_bytesRead += tmp.getByteCount(true);
+				setBytesRead(getBytesRead() + tmp.getByteCount(true));
 				long l_ = tmp.getAsLong();
 				
 				MidiFileUtils.logWriter().println("  Length ist " + l_ + " [0x" + tmp.getHexString(true) + " -> 0x" + tmp.getHexString(false) + "]");
@@ -38,16 +34,21 @@ public class MetaEvent extends Event {
 					buff = new byte[(int)l_];
 				}
 				int d = is.read(buff, 0, (int)l_);
-				m_bytesRead += d;
+				setBytesRead(getBytesRead() + d);
 				if (l_ > 0) {
 					MidiFileUtils.logWriter().println("  Data ist 0x" + MidiFileUtils.getHexString(buff, 0, d));
 				}
 		}
 	}
-
+	
 	@Override
 	public void writeToStream(OutputStream os) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public int getEventType() {
+		return MidiFileUtils.META_EVENT;
 	}
 
 }

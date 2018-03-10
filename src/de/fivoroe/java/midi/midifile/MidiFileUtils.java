@@ -6,6 +6,10 @@ import java.io.PrintWriter;
 
 public class MidiFileUtils {
 	
+	public static final int   READ_BUFFER_SIZE = 1024;
+
+	public static final int   MIDI_HEADER_LENGTH = 6;
+	
 	public static final short MIDI_EVENT  = 0;
 	public static final short META_EVENT  = 1;
 	public static final short SYSEX_EVENT = 2;
